@@ -9,8 +9,12 @@ plugins {
 
 project.version = scmVersion.version
 
+String imageServiceName = 'tutorchat-jenkins'
+String dockerHubUsername = 'kilev'
+String imageName = "${dockerHubUsername}/${imageServiceName}:${version}"
+
 docker {
-    name "${project.name}:${project.version}"
+    name imageName
     files "plugins.txt", "seedJob.xml"
 }
 
@@ -29,7 +33,7 @@ String dockerSockGroupId = out.toString().trim()
 
 dockerRun {
     name "${project.name}"
-    image "${project.name}:${project.version}"
+    image imageName
     ports '8080:8080'
     clean true
     daemonize false
